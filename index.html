@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Faster Forward Colorado</title>
+<link rel="icon" type="image/png" href="Faster_Forward_Logo-_Favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400;1,9..40,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,38 +39,82 @@
     color: var(--navy);
   }
 
-  /* ─── HERO ─── */
+  /* ─── SHARED DIAGONAL ANGLE ───
+     All colored bands use the same parallelogram shape: top-left raised 40px,
+     top-right flush, bottom-left flush, bottom-right raised 40px.
+     White sections don't need clipping but need matching padding compensation. */
+  --slant: 40px;
+
+  /* HERO — pure white so transparent logo PNG looks clean */
   .hero {
-    background: linear-gradient(170deg, var(--pale) 0%, var(--white) 60%, var(--ice) 100%);
-    padding: 4.5rem 2rem 3.5rem;
+    background: var(--white);
+    padding: 4rem 2rem 0;
     text-align: center;
-    border-bottom: 1px solid var(--border);
+    position: relative;
+    z-index: 4;
   }
 
   .hero img {
-    max-width: 360px;
-    width: 75%;
-    margin-bottom: 2.5rem;
+    max-width: 380px;
+    width: 70%;
     animation: fadeUp 0.7s ease-out;
   }
 
-  .hero-intro {
-    max-width: 720px;
-    margin: 0 auto;
-    font-size: 1.02rem;
-    color: var(--text);
-    line-height: 1.8;
-    animation: fadeUp 0.7s ease-out 0.1s both;
+  /* BLUE STRIPE — parallelogram, same angle throughout */
+  .blue-stripe {
+    background: linear-gradient(160deg, var(--navy) 0%, var(--deep-blue) 100%);
+    height: 80px;
+    clip-path: polygon(0 40px, 100% 0, 100% calc(100% - 40px), 0 100%);
+    position: relative;
+    z-index: 3;
+    margin-top: -1px;
+    overflow: hidden;
   }
 
-  .hero-intro strong {
+  .blue-stripe::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -20deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.013) 60px,
+      rgba(255,255,255,0.013) 62px
+    );
+    pointer-events: none;
+  }
+
+  /* INTRO SECTION — white, extra top/bottom padding to clear slant overlaps */
+  .intro-section {
+    background: var(--white);
+    padding: 4rem 2rem 4.5rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    margin-top: -1px;
+  }
+
+  .intro-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .intro-section p {
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.85;
+    animation: fadeUp 0.7s ease-out 0.15s both;
+  }
+
+  .intro-section p strong {
     color: var(--navy);
     font-weight: 600;
   }
 
-  /* ─── SHARED ─── */
+  /* SHARED inner-section layout */
   .section {
-    padding: 4.5rem 2rem;
+    padding: 5.5rem 2rem 5.5rem;
     max-width: 880px;
     margin: 0 auto;
   }
@@ -82,6 +127,7 @@
     text-transform: uppercase;
     color: var(--mid-blue);
     margin-bottom: 0.6rem;
+    display: block;
   }
 
   .section h2 {
@@ -90,12 +136,16 @@
     letter-spacing: -0.01em;
   }
 
+  /*
+    DIAGONAL ACCENT LINE — a parallelogram clipped to echo the ascending
+    left-to-right angle of the logo's bar chart motif.
+  */
   .accent-line {
-    width: 40px;
-    height: 2.5px;
+    width: 52px;
+    height: 3px;
     background: linear-gradient(to right, var(--mid-blue), var(--light-blue));
-    border-radius: 2px;
     margin-bottom: 1.5rem;
+    clip-path: polygon(7px 0%, 100% 0%, calc(100% - 7px) 100%, 0% 100%);
   }
 
   .section p {
@@ -104,12 +154,15 @@
     max-width: 660px;
   }
 
-  /* ─── BAND ─── */
+  /* BAND — pale background with parallelogram shape */
   .band {
     background: var(--pale);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 4.5rem 2rem;
+    padding: 6rem 2rem;
+    position: relative;
+    z-index: 2;
+    clip-path: polygon(0 40px, 100% 0, 100% calc(100% - 40px), 0 100%);
+    margin-top: -40px;
+    margin-bottom: -40px;
   }
 
   .band-inner {
@@ -117,19 +170,30 @@
     margin: 0 auto;
   }
 
-  /* ─── WHY NOW ─── */
-  .why-text {
-    color: var(--text-light);
-    font-size: 0.98rem;
-    max-width: 660px;
-    line-height: 1.8;
-  }
-
-  /* ─── PRINCIPLES CENTERPIECE ─── */
+  /* SHARED */
   .principles-band {
     background: linear-gradient(175deg, var(--navy) 0%, var(--deep-blue) 100%);
-    padding: 5rem 0;
+    padding: 6.5rem 0 6rem;
+    position: relative;
+    z-index: 1;
+    clip-path: polygon(0 40px, 100% 0, 100% calc(100% - 40px), 0 100%);
+    margin-top: -40px;
+    margin-bottom: -40px;
     overflow: hidden;
+  }
+
+  .principles-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -20deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.013) 60px,
+      rgba(255,255,255,0.013) 62px
+    );
+    pointer-events: none;
   }
 
   .principles-header {
@@ -137,11 +201,11 @@
     margin: 0 auto;
     padding: 0 2rem;
     margin-bottom: 2.5rem;
+    position: relative;
+    z-index: 1;
   }
 
-  .principles-header .section-label {
-    color: var(--sky);
-  }
+  .principles-header .section-label { color: var(--sky); }
 
   .principles-header h2 {
     color: var(--white);
@@ -160,38 +224,45 @@
     max-width: 600px;
   }
 
-  /* ─── CAROUSEL ─── */
-  .carousel-wrapper {
-    position: relative;
-    padding: 0 2rem;
-  }
-
-  .carousel-track {
-    display: flex;
-    gap: 1.25rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 0.5rem 0 1.5rem;
+  /* PRINCIPLES GRID — all 5 visible, no scroll */
+  .principles-grid {
     max-width: 880px;
     margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
   }
 
-  .carousel-track::-webkit-scrollbar { display: none; }
-
   .principle-card {
-    flex: 0 0 260px;
-    scroll-snap-align: start;
     background: rgba(255,255,255,0.07);
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 10px;
-    padding: 2rem 1.6rem;
+    padding: 1.6rem 1.3rem;
     transition: transform 0.25s ease, background 0.25s ease;
     cursor: default;
+    position: relative;
+    overflow: hidden;
   }
 
+  /* rising bar accent in card corner, echoing logo */
+  .principle-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 3px;
+    height: 28%;
+    background: linear-gradient(to top, var(--sky), transparent);
+    border-radius: 2px 0 0 0;
+    opacity: 0.4;
+    transition: height 0.3s ease, opacity 0.3s ease;
+  }
+
+  .principle-card:hover::after { height: 50%; opacity: 0.7; }
   .principle-card:hover {
     background: rgba(255,255,255,0.12);
     transform: translateY(-3px);
@@ -199,53 +270,30 @@
 
   .principle-number {
     font-family: 'Outfit', sans-serif;
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 600;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--sky);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.6rem;
   }
 
   .principle-card h3 {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--white);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
   }
 
   .principle-card p {
-    font-size: 0.88rem;
+    font-size: 0.82rem;
     color: rgba(255,255,255,0.6);
-    line-height: 1.7;
+    line-height: 1.65;
   }
 
-  /* scroll hint dots */
-  .carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    max-width: 880px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    transition: background 0.3s ease, transform 0.3s ease;
-  }
-
-  .dot.active {
-    background: var(--sky);
-    transform: scale(1.3);
-  }
-
-  /* ─── FOCUS CARDS ─── */
+  /* FOCUS CARDS */
   .focus-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -273,12 +321,13 @@
     margin-bottom: 0.4rem;
   }
 
+  /* diagonal parallelogram accent matching logo angle */
   .card-accent {
-    width: 24px;
-    height: 2px;
-    background: var(--mid-blue);
-    border-radius: 1px;
+    width: 36px;
+    height: 2.5px;
+    background: linear-gradient(to right, var(--mid-blue), var(--sky));
     margin-bottom: 0.9rem;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
   }
 
   .focus-card p {
@@ -287,7 +336,7 @@
     line-height: 1.65;
   }
 
-  /* ─── PROGRAMS (simple prose) ─── */
+  /* PROGRAMS */
   .programs-text {
     color: var(--text-light);
     font-size: 0.98rem;
@@ -295,7 +344,15 @@
     line-height: 1.8;
   }
 
-  /* ─── FOOTER ─── */
+  /* PROGRAMS — white section after band, compensate for band's bottom overlap */
+  .programs-section {
+    position: relative;
+    z-index: 0;
+    background: var(--white);
+    padding-top: 40px; /* compensate for band's negative bottom margin */
+  }
+
+  /* FOOTER */
   footer {
     background: var(--navy);
     color: rgba(255,255,255,0.45);
@@ -303,6 +360,8 @@
     padding: 2rem;
     font-size: 0.78rem;
     letter-spacing: 0.02em;
+    position: relative;
+    z-index: 0;
   }
 
   footer strong {
@@ -310,157 +369,152 @@
     font-weight: 500;
   }
 
-  /* ─── ANIMATIONS ─── */
+  /* ANIMATIONS */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 640px) {
-    .hero { padding: 3rem 1.5rem 2.5rem; }
+  /* RESPONSIVE */
+
+  /* Medium: 3 on top, 2 centered below */
+  @media (max-width: 860px) {
+    .principles-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+    .principle-card:nth-child(1) { grid-column: 1 / 3; }
+    .principle-card:nth-child(2) { grid-column: 3 / 5; }
+    .principle-card:nth-child(3) { grid-column: 5 / 7; }
+    .principle-card:nth-child(4) { grid-column: 2 / 4; }
+    .principle-card:nth-child(5) { grid-column: 4 / 6; }
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2.5rem 1.5rem 0; }
     .hero img { max-width: 260px; }
-    .hero-intro { font-size: 0.95rem; }
-    .section, .band { padding: 3rem 1.5rem; }
-    .principles-band { padding: 3.5rem 0; }
+    .intro-section { padding: 3rem 1.5rem 3.5rem; }
+    .intro-section p { font-size: 0.95rem; }
+    .section { padding: 4rem 1.5rem; }
+    .band { padding: 5rem 1.5rem; }
+    .principles-band { padding: 5.5rem 0 5rem; }
     .section h2, .principles-header h2 { font-size: 1.4rem; }
-    .principle-card { flex: 0 0 230px; }
+    .principles-grid {
+      grid-template-columns: 1fr 1fr !important;
+      padding: 0 1.5rem;
+    }
+    .principle-card:nth-child(n) { grid-column: auto !important; }
+    .principle-card:nth-child(5) { grid-column: 1 / -1 !important; }
+  }
+
+  @media (max-width: 360px) {
+    .principles-grid { grid-template-columns: 1fr !important; }
+    .principle-card:nth-child(5) { grid-column: auto !important; }
   }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
+<!-- HERO — white bg so transparent logo PNG renders cleanly -->
 <section class="hero">
   <img src="Faster_Forward_Logo.png" alt="Faster Forward Colorado">
-  <p class="hero-intro">
-    Faster Forward Colorado (FFC) is a new initiative that partners with elected leaders to deliver outcomes on the issues that matter most to Coloradans. As an emerging 'think and do tank' we will accelerate progress on housing, child care, clean energy, transit and more, with the overarching message that <strong>we can lower costs and enable opportunity by moving faster to build what Colorado needs, while protecting what's best about our beautiful state.</strong>
-  </p>
 </section>
 
-<!-- WHY NOW -->
-<section class="section">
-  <span class="section-label">The Opportunity</span>
-  <h2>Why Colorado & Why Now</h2>
-  <div class="accent-line"></div>
-  <p class="why-text">
-    Colorado is a success story of Democratic governance — growing in population, attracting high-tech industry, and delivering innovative policymaking. Yet Coloradans face high costs for essentials like housing and child care, alongside slowing job growth. With a generational transition in statewide leadership in 2026, now is a high-leverage moment to shape what comes next.
-  </p>
-</section>
+<!-- BLUE STRIPE — diagonal divider between logo and intro text -->
+<div class="blue-stripe"></div>
 
-<!-- GUIDING PRINCIPLES — CAROUSEL -->
-<section class="principles-band">
-  <div class="principles-header">
-    <span class="section-label">Our Approach</span>
-    <h2>Guiding Principles</h2>
-    <div class="accent-line"></div>
-    <p>Five design principles for policy action that drive faster impact and garner broad support.</p>
+<!-- INTRO TEXT — white background -->
+<div class="intro-section">
+  <div class="intro-inner">
+    <p>
+      Faster Forward Colorado partners with elected leaders to deliver outcomes on the issues that matter most to Coloradans. By moving faster to build what Colorado needs, we can accelerate progress on housing, child care, clean energy, transit and more, <strong>lowering costs and enabling opportunity while protecting what's best about our beautiful state.</strong>
+    </p>
   </div>
-
-  <div class="carousel-wrapper">
-    <div class="carousel-track" id="carouselTrack">
-      <div class="principle-card">
-        <div class="principle-number">01</div>
-        <h3>Urgency</h3>
-        <p>Speed to impact matters, and we should aspire to deliver in quarters, not years. Anything pushing out the time until people feel benefit needs strong justification.</p>
-      </div>
-      <div class="principle-card">
-        <div class="principle-number">02</div>
-        <h3>Supply</h3>
-        <p>To increase access and lower prices, we need to overcome artificial scarcity that forces Coloradans into cutthroat competition for essential needs.</p>
-      </div>
-      <div class="principle-card">
-        <div class="principle-number">03</div>
-        <h3>Simplification</h3>
-        <p>When we enlist the private sector to achieve public goals, we need to ensure processes and requirements don't work at cross-purposes to success.</p>
-      </div>
-      <div class="principle-card">
-        <div class="principle-number">04</div>
-        <h3>Innovation</h3>
-        <p>We should enable creativity and technology to unlock better ways to deliver for Coloradans across the public and private sectors.</p>
-      </div>
-      <div class="principle-card">
-        <div class="principle-number">05</div>
-        <h3>Public Action</h3>
-        <p>If the market isn't providing essential needs efficiently and fairly or is leaving people behind, governments shouldn't be afraid to take direct steps to deliver.</p>
-      </div>
-    </div>
-    <div class="carousel-dots" id="carouselDots">
-      <div class="dot active"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-      <div class="dot"></div>
-    </div>
-  </div>
-</section>
+</div>
 
 <!-- FOCUS AREAS -->
 <div class="band">
   <div class="band-inner">
-    <span class="section-label">Where We Focus</span>
-    <h2>Current Focus Areas</h2>
+    <span class="section-label">Where we need to move faster</span>
+    <h2>Colorado's Challenges</h2>
     <div class="accent-line"></div>
     <div class="focus-grid">
       <div class="focus-card">
         <div class="card-accent"></div>
-        <h3>Housing & Transit</h3>
-        <p>Helping cities and counties lead on housing supply and transit-oriented development.</p>
+        <h3>Housing &amp; Transportation</h3>
+        <p>Building the housing that Colorado families need, in livable communities that provide easy everyday options for mobility.</p>
       </div>
       <div class="focus-card">
         <div class="card-accent"></div>
         <h3>Clean Energy</h3>
-        <p>Removing local barriers to renewable energy development and keeping costs low.</p>
+        <p>Rapidly building the low-cost clean energy locally and across our state that can keep electricity prices stable while demand increases.</p>
       </div>
       <div class="focus-card">
         <div class="card-accent"></div>
         <h3>Child Care</h3>
-        <p>Expanding supply and lowering costs by scaling public systems and enabling new providers.</p>
+        <p>Overcoming Colorado's child care shortage and high costs by enabling business growth in the child care sector paired with public investment.</p>
+      </div>
+      <div class="focus-card">
+        <div class="card-accent"></div>
+        <h3>TBD</h3>
       </div>
     </div>
   </div>
 </div>
 
-<!-- PROGRAMS -->
-<section class="section">
-  <span class="section-label">How We Work</span>
-  <h2>Programs for Local Leaders</h2>
-  <div class="accent-line"></div>
-  <p class="programs-text">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-  </p>
+<!-- GUIDING PRINCIPLES — 5-card grid, no scroll required -->
+<section class="principles-band">
+  <div class="principles-header">
+    <span class="section-label">Our Approach</span>
+    <h2>How to Move Colorado Forward Faster</h2>
+    <div class="accent-line"></div>
+    <p>To make progress that Colorado families can feel, we need policymaking that's designed for impact.</p>
+  </div>
+
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-number">01</div>
+      <h3>Urgency</h3>
+      <p>Coloradans feel daily challenges and our state faces urgent needs — speed matters. We need policy action that aspires to deliver in quarters, not years and decades.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">02</div>
+      <h3>Supply</h3>
+      <p>Intense competition for essential needs like housing and child care drives up costs and restricts choice. We need enough for everyone and the options for people to choose what fits them best.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">03</div>
+      <h3>Simplification</h3>
+      <p>Complexity is easy, simplicity is hard. We need to level-up government rules and processes to meet public goals and deliver outcomes — not preserve the status quo.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">04</div>
+      <h3>Innovation</h3>
+      <p>Creativity and technology can unlock better ways to deliver for Coloradans across the public and private sectors. We should enlist innovation wherever we can.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-number">05</div>
+      <h3>Public Action</h3>
+      <p>If the private sector isn't providing for essential needs or is leaving people behind, government should take action to make up the difference.</p>
+    </div>
+  </div>
 </section>
+
+<!-- PROGRAMS -->
+<div class="programs-section">
+  <section class="section">
+    <span class="section-label">Our Work</span>
+    <h2>Partnering with Leaders</h2>
+    <div class="accent-line"></div>
+    <p class="programs-text">
+      We partner with the elected leaders in our cities, counties and at the state level who are focused on action to address these challenges that Colorado families feel every day. We invest in policy development, storytelling, coalition building and building grassroots support to win victories and build momentum to tackle bigger challenges.
+    </p>
+  </section>
+</div>
 
 <!-- FOOTER -->
 <footer>
   <strong>Faster Forward Colorado</strong> &nbsp;·&nbsp; Accelerating progress on what matters most
 </footer>
-
-<script>
-  // Carousel dot tracking
-  const track = document.getElementById('carouselTrack');
-  const dots = document.querySelectorAll('.dot');
-  const cards = document.querySelectorAll('.principle-card');
-
-  function updateDots() {
-    const scrollLeft = track.scrollLeft;
-    const cardWidth = cards[0].offsetWidth + 20; // card + gap
-    const activeIndex = Math.round(scrollLeft / cardWidth);
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === activeIndex);
-    });
-  }
-
-  track.addEventListener('scroll', updateDots, { passive: true });
-
-  // Click dots to scroll
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      const cardWidth = cards[0].offsetWidth + 20;
-      track.scrollTo({ left: i * cardWidth, behavior: 'smooth' });
-    });
-  });
-</script>
 
 </body>
 </html>
