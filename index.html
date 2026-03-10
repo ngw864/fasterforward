@@ -633,12 +633,16 @@
       setTimeout(() => emailInput.style.borderColor = '', 1500);
       return;
     }
-    const subject = encodeURIComponent('FFC newsletter signup');
-    const body = encodeURIComponent(email);
-    const mailto = `mailto:nathanwyeth@gmail.com?subject=${subject}&body=${body}`;
-    window.location.href = mailto;
-    emailInput.value = '';
-    document.getElementById('signup-success').style.display = 'block';
+    fetch('https://formspree.io/f/meerawjg', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, subject: 'FFC newsletter signup' })
+    }).then(res => {
+      if (res.ok) {
+        emailInput.value = '';
+        document.getElementById('signup-success').style.display = 'block';
+      }
+    }).catch(() => {});
   }
 
   document.getElementById('signup-email').addEventListener('keydown', function(e) {
