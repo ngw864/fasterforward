@@ -353,6 +353,110 @@
     padding-top: 40px; /* compensate for band's negative bottom margin */
   }
 
+  /* EMAIL SIGNUP */
+  .signup-band {
+    background: linear-gradient(160deg, var(--deep-blue) 0%, var(--navy) 100%);
+    padding: 4rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .signup-band::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -20deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.013) 60px,
+      rgba(255,255,255,0.013) 62px
+    );
+    pointer-events: none;
+  }
+
+  .signup-inner {
+    max-width: 520px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .signup-band .section-label {
+    color: var(--sky);
+  }
+
+  .signup-band h2 {
+    color: var(--white);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .signup-band p {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.92rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .signup-form {
+    display: flex;
+    gap: 0.6rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .signup-form input[type="email"] {
+    flex: 1;
+    min-width: 220px;
+    max-width: 320px;
+    padding: 0.75rem 1.1rem;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.08);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .signup-form input[type="email"]::placeholder {
+    color: rgba(255,255,255,0.35);
+  }
+
+  .signup-form input[type="email"]:focus {
+    border-color: var(--sky);
+    background: rgba(255,255,255,0.12);
+  }
+
+  .signup-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--mid-blue);
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .signup-btn:hover {
+    background: var(--sky);
+    transform: translateY(-1px);
+  }
+
+  .signup-success {
+    display: none;
+    color: var(--light-blue);
+    font-size: 0.95rem;
+    margin-top: 1rem;
+    animation: fadeUp 0.4s ease-out;
+  }
+
   /* FOOTER */
   footer {
     background: var(--navy);
@@ -506,10 +610,42 @@
   </section>
 </div>
 
+<!-- EMAIL SIGNUP -->
+<div class="signup-band">
+  <div class="signup-inner">
+    <span class="section-label">Stay Informed</span>
+    <p>Sign up to receive news on our work and progress across Colorado.</p>
+    <div class="signup-form">
+      <input type="email" id="signup-email" placeholder="your@email.com" autocomplete="email">
+      <button class="signup-btn" onclick="submitSignup()">Subscribe</button>
+    </div>
+    <div class="signup-success" id="signup-success">✓ Thanks for signing up!</div>
+  </div>
+</div>
+
+<script>
+  function submitSignup() {
+    const emailInput = document.getElementById('signup-email');
+    const email = emailInput.value.trim();
+    if (!email || !email.includes('@')) {
+      emailInput.focus();
+      emailInput.style.borderColor = '#e05c5c';
+      setTimeout(() => emailInput.style.borderColor = '', 1500);
+      return;
+    }
+    const subject = encodeURIComponent('FFC newsletter signup');
+    const body = encodeURIComponent(email);
+    const mailto = `mailto:nathanwyeth@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = mailto;
+    emailInput.value = '';
+    document.getElementById('signup-success').style.display = 'block';
+  }
+
+  document.getElementById('signup-email').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') submitSignup();
+  });
+</script>
+
 <!-- FOOTER -->
 <footer>
-  <strong>Faster Forward Colorado</strong> &nbsp;·&nbsp; <a href="mailto:hello@fasterforwardcolorado.org" style="color: var(--light-blue); text-decoration: none;">Contact</a>
-</footer>
-
-</body>
-</html>
+  <strong>Faster Forward Colorado</strong> &nbsp;·&nbsp; <a href="/cdn-cgi/l/email-protection#0a626f6666654a6c6b797e6f786c65787d6b786e69656665786b6e652465786d" style="color: var(--light-blue); text-deco
