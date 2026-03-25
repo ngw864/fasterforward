@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Briefing: Winning Majority Support to Solve Affordability in Colorado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --sky: #3b7dd8;
+    --sky-light: #e8f0fc;
+    --teal: #2a9d8f;
+    --teal-dark: #21806e;
+    --gold: #e9a820;
+    --warm-white: #fafaf8;
+    --text: #2c2c2c;
+    --text-light: #5a5a5a;
+    --border: #dde3ea;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--warm-white);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
+    background: var(--navy);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .topbar a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+  }
+  .topbar a:hover { opacity: 1; }
+  .topbar img {
+    height: 32px;
+    width: auto;
+  }
+  .topbar .arrow {
+    font-size: 18px;
+    margin-right: 2px;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(165deg, var(--navy) 0%, #243b63 50%, var(--sky) 100%);
+    color: #fff;
+    padding: 72px 32px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(42,157,143,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(233,168,32,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .presenters-line {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(28px, 4.5vw, 44px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .hero .subtitle {
+    font-size: 17px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 400;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+  .date-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 12px 20px;
+    backdrop-filter: blur(6px);
+    text-decoration: none;
+    color: #fff;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .date-badge:hover {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .date-badge .cal-icon {
+    font-size: 22px;
+  }
+  .date-badge .date-text {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* ── Content ── */
+  .content {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 56px 32px 80px;
+  }
+
+  .content p {
+    font-size: 16.5px;
+    color: var(--text);
+    margin-bottom: 24px;
+    line-height: 1.8;
+  }
+
+  .highlight-block {
+    background: linear-gradient(135deg, var(--sky-light) 0%, #f0f6ff 100%);
+    border-left: 4px solid var(--sky);
+    border-radius: 0 10px 10px 0;
+    padding: 28px 32px;
+    margin: 36px 0;
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--navy);
+  }
+
+  /* ── Speakers ── */
+  .speakers-section {
+    margin-top: 44px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .speakers-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 20px;
+  }
+  .speaker {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+  }
+  .speaker-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .speaker:nth-child(2) .speaker-dot { background: var(--sky); }
+  .speaker:nth-child(3) .speaker-dot { background: var(--teal); }
+  .speaker:nth-child(4) .speaker-dot { background: var(--gold); }
+  .speaker-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--navy);
+  }
+  .speaker-org {
+    font-size: 14.5px;
+    color: var(--text-light);
+    margin-left: 4px;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    margin-top: 48px;
+    text-align: center;
+    padding: 48px 32px;
+    background: linear-gradient(135deg, #f7faf9 0%, var(--sky-light) 100%);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+  }
+  .cta-section .closing {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--navy);
+    margin-bottom: 24px;
+  }
+  .register-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--teal);
+    color: #fff;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 16px 40px;
+    border-radius: 8px;
+    transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+    box-shadow: 0 4px 14px rgba(42,157,143,0.3);
+  }
+  .register-btn:hover {
+    background: var(--teal-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(42,157,143,0.4);
+  }
+  .register-btn .btn-arrow {
+    font-size: 20px;
+    transition: transform 0.2s;
+  }
+  .register-btn:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    padding: 32px;
+    font-size: 13px;
+    color: var(--text-light);
+    border-top: 1px solid var(--border);
+  }
+  .footer a {
+    color: var(--sky);
+    text-decoration: none;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .hero { padding: 48px 20px 44px; }
+    .content { padding: 40px 20px 60px; }
+    .highlight-block { padding: 22px 20px; }
+    .cta-section { padding: 36px 20px; }
+    .speaker { flex-wrap: wrap; gap: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <nav class="topbar">
+    <a href="https://www.fasterforwardcolorado.org">
+      <span class="arrow">&#8592;</span>
+      <img src="https://www.fasterforwardcolorado.org/ffclogo.png" alt="Faster Forward Colorado">
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="presenters-line">Faster Forward Colorado &amp; Aspect Strategic present</p>
+      <h1>Virtual Briefing: Winning Majorities to Solve Affordability in Colorado</h1>
+      <p class="subtitle">Including expert recap of the April 7 Lakewood special election</p>
+      <a href="https://us04web.zoom.us/meeting/register/e6nkUTTISkKAR8DcVVTn_g" class="date-badge" target="_blank" rel="noopener">
+        <span class="cal-icon">&#128197;</span>
+        <span class="date-text">Tuesday, April 14 &middot; 3:00 PM MT</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="content">
+
+    <div class="highlight-block">
+      Please <a href="https://us04web.zoom.us/meeting/register/e6nkUTTISkKAR8DcVVTn_g" style="color:var(--teal);font-weight:600;">register</a> and mark your calendar to join for a timely virtual briefing during which leaders of the Make Lakewood Livable campaign will recap the upcoming April 7 special election on Lakewood's ambitious housing affordability plan, in the context of research from Aspect Strategic exploring how key voting constituencies think about affordability solutions.
+    </div>
+
+    <p>Coloradans consistently label cost of living — especially housing — as the top challenge they face and that they want elected leaders to address. Candidates focusing on housing have won local and state level elections and responded with action to grow housing supply and address affordability.</p>
+
+    <p>These policies have been proven effective in other cities and states. However, voter support for these policies falls far short of their support for pro-housing candidates they elect — drawing backlash including from core Democratic constituencies.</p>
+
+    <p>Lakewood, Colorado exemplifies this trend, electing a city council with a pro-housing supermajority that worked thoughtfully with constituents to craft and enact a housing affordability plan that will grow middle housing in the city. In response, a NIMBY organization forced a special election that will take place April 7 and could result in repeal of the policy.</p>
+
+    <p>If you are an elected leader, campaigner, advocate or policy expert interested in winning both the politics and policy of addressing cost of living… join Faster Forward Colorado and Aspect Strategic for a virtual briefing shortly after Lakewood's April 7 election to review the outcome, hear from campaign leaders on their strategies, share quantitative and qualitative research exploring voter attitudes, and explore how to build support for policies to address housing and affordability that extends all the way through to successful policy implementation.</p>
+
+    <!-- Speakers -->
+    <div class="speakers-section">
+      <p class="speakers-label">Featuring</p>
+      <div class="speaker">
+        <span class="speaker-dot"></span>
+        <div><span class="speaker-name">Betsy App &amp; Kevin Ingham</span><span class="speaker-org">&mdash; Aspect Strategic</span></div>
+      </div>
+      <div class="speaker">
+        <span class="speaker-dot"></span>
+        <div><span class="speaker-name">Sophia Mayott-Guerrero</span><span class="speaker-org">&mdash; Make Lakewood Livable</span></div>
+      </div>
+      <div class="speaker">
+        <span class="speaker-dot"></span>
+        <div><span class="speaker-name">Nathan Wyeth</span><span class="speaker-org">&mdash; Faster Forward Colorado</span></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <p class="closing">We look forward to seeing you!</p>
+      <a href="https://us04web.zoom.us/meeting/register/e6nkUTTISkKAR8DcVVTn_g" class="register-btn" target="_blank" rel="noopener">
+        Register Now
+        <span class="btn-arrow">&#8594;</span>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <a href="https://www.fasterforwardcolorado.org">Faster Forward Colorado</a>
+  </footer>
+
+</body>
+</html>
